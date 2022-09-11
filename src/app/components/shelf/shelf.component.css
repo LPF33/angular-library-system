@@ -1,0 +1,80 @@
+:host {
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    overflow: auto;
+    position: relative;
+}
+
+h2.system {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.shelf {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+}
+
+.shelf.left {
+    padding-left: 40px;
+}
+
+.shelf.right {
+    padding-right: 40px;
+}
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.empty .system-name-form {
+    padding: 10px;
+}
+
+label {
+    color: white;
+}
+
+.save {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.shelf-left {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    color: white;
+}
+
+.shelf-right {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    color: white;
+}
+
+.buttons {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+button + button {
+    margin-left: 10px;
+}

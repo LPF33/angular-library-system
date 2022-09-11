@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+    font-family: Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    box-sizing: border-box;
+}
+
+html, body { height: 100%; }
+
+body { 
+    margin: 0; 
+}
+
+h1, h2, h3, h4 {
+    text-align: center;
+    color: white;
+}

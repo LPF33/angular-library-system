@@ -1,3 +1,8 @@
+# Library System
+
+Started with project "Library System". Register all your books in different shelves and in different places. Should help to find your books.
+Database connection missing. Just started!
+
 # Test
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.1.

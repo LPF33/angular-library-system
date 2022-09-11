@@ -1,0 +1,55 @@
+<ng-container *ngIf="shelfsystem.length; else noShelf">
+    <h2 class="system">{{systemName}}</h2>
+    <button mat-fab color="accent" (click)="save()" class="save">
+        <mat-icon>
+            <span class="material-icons">save</span>
+        </mat-icon>
+    </button>
+    <div  class="shelf" *ngFor="let shelf of shelfsystem; let shelfIndex = index; let first = first; let last = last;" [ngClass]="{left: first, right: last}">
+        <button mat-icon-button class="shelf-left" *ngIf="first" (click)="addShelf('first')">
+            +
+            <mat-icon>
+                <span class="material-icons">shelves</span>
+            </mat-icon>
+        </button>
+
+        <ng-container *ngFor="let board of shelf, let boardIndex = index">
+            <app-shelf-board *ngIf="checkIfString(board)" [shelf]="shelfIndex" [index]="boardIndex" [id]="$any(board)" (delete)="deleteShelfItem(shelfIndex , boardIndex)"></app-shelf-board>
+            <app-shelf-empty *ngIf="board === 0" [shelf]="shelfIndex" [index]="boardIndex" (delete)="deleteShelfItem(shelfIndex , boardIndex)"></app-shelf-empty>
+        </ng-container>
+        <div class="buttons">
+            <button mat-flat-button color="primary" (click)="addBoard(shelfIndex , 'board')">
+                + Regalbrett
+            </button>
+        
+            <button mat-flat-button color="primary" (click)="addBoard(shelfIndex , 'empty')">
+                + Leerraum
+            </button> 
+
+            <button mat-icon-button color="warn" (click)="deleteShelf(shelfIndex)">
+                <mat-icon>
+                    <span class="material-icons">delete</span>
+                </mat-icon>
+            </button>
+        </div>
+
+        <button mat-icon-button class="shelf-right" *ngIf="last" (click)="addShelf('first')">
+            <mat-icon>
+                <span class="material-icons">shelves</span>
+            </mat-icon>
+            +
+        </button>
+    </div>
+</ng-container>
+
+<ng-template #noShelf>
+    <div class="empty">
+        <h2 class="mat-h2">Baue das Regal zusammen und fülle es mit Büchern!</h2>
+        <div class="system-name-form">
+            <label for="system-name">Wähle einen Namen für das Regalsystem:</label>
+            <input id="system-name" type="text" [(ngModel)]="systemName" placeholder="z.B. Wohnzimmer" (keydown.enter)="start()"/>
+        </div>
+        <button mat-flat-button color="primary" (click)="start()" [disabled]="!systemName">Start</button>
+    </div>
+</ng-template>
+

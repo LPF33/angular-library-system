@@ -1,0 +1,20 @@
+<ng-container *ngIf="!onlySVG, else onlySVGTemplate">
+    <svg width="200" height="60" (click)="editBoard()" appHover [class]="'shelf-border'">
+        <rect width="200" height="60" stroke="white" stroke-width="10" class="shelf-border"/>
+        <rect *appLoopTimes="books; let i = index;" [attr.x]="5+14*i" y="6" width="10" height="48" fill="blue" stroke="red" stroke-width="2" />
+    </svg>
+    <button mat-icon-button color="warn" (click)="deleteSelf()">
+        <mat-icon>
+            <span class="material-icons">remove_circle</span>
+        </mat-icon>
+    </button>
+
+    <app-shelf-edit-board *ngIf="showEditBoard" [id]="$any(id)" [index]="index" (closeEdit)="showEditBoard = false"></app-shelf-edit-board>
+</ng-container>
+
+<ng-template #onlySVGTemplate>
+    <svg width="200" height="60">
+        <rect width="200" height="60" stroke="white" stroke-width="10" />
+        <rect *appLoopTimes="books; let i = index;" [attr.x]="5+14*i" y="6" width="10" height="48" fill="blue" stroke="red" stroke-width="2" />
+    </svg>
+</ng-template>

@@ -1,0 +1,10 @@
+<h2>Bearbeite Regalbrett: {{index ? index + 1 : index}}</h2>
+<button mat-icon-button color="warn" (click)="close()" class="close">
+    <mat-icon>
+        <span class="material-icons">highlight_off</span>
+    </mat-icon>
+</button>
+<app-shelf-board [onlySVG]=true [books]="books" class="shelf-board"></app-shelf-board>
+
+<app-add-book (addBook)="addBook($event)"></app-add-book>
+

@@ -1,0 +1,12 @@
+<h3>Füge ein Buch hinzu</h3>
+<mat-icon>
+    <span class="material-icons">menu_book</span>
+</mat-icon>
+<form (submit)="saveBook($event)">
+    <label for="title">Titel:</label>
+    <input id="title" name="title" type="text" [(ngModel)]="title" />
+    <label for="author">Autor:</label>
+    <input id="author" name="author" type="text" [(ngModel)]="author" />
+    <button type="submit">Speichern</button>
+    <button type="reset">Löschen</button>
+</form>
