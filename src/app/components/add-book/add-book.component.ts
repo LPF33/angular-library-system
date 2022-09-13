@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { StorageService } from 'src/app/services/storage.service';
-import { UuidServiceService } from 'src/app/services/uuid-service.service';
+import { HttpService } from 'src/app/services/http.service';
+import { UuidService } from 'src/app/services/uuid.service';
+import { IBook } from 'src/app/types';
 
 @Component({
   selector: 'app-add-book',
@@ -9,12 +10,12 @@ import { UuidServiceService } from 'src/app/services/uuid-service.service';
 })
 export class AddBookComponent implements OnInit {
 
-  @Output() addBook = new EventEmitter();
+  @Output() addBook = new EventEmitter<IBook>();
 
   title: string = "";
   author: string = "";
 
-  constructor(private uuidService: UuidServiceService, private storageService: StorageService) { }
+  constructor(private uuidService: UuidService, private http: HttpService) { }
 
   ngOnInit(): void {
   }
@@ -24,8 +25,7 @@ export class AddBookComponent implements OnInit {
 
     if(this.title && this.author){
       const bookId = this.uuidService.getId();
-      this.storageService.saveBook(bookId, this.author, this.title);
-      this.addBook.emit(bookId);
+      this.addBook.emit({bookId, title:this.title, author:this.author});
       this.clearForm();
     }
   }

@@ -9,7 +9,7 @@
         </mat-icon>
     </button>
 
-    <app-shelf-edit-board *ngIf="showEditBoard" [id]="$any(id)" [index]="index" (closeEdit)="showEditBoard = false"></app-shelf-edit-board>
+    <app-shelf-edit-board *ngIf="showEditBoard" [shelfid]="shelfid" [systemid]="systemid" [index]="index" [newSystem]="newSystem" (closeEdit)="showEditBoard = false"></app-shelf-edit-board>
 </ng-container>
 
 <ng-template #onlySVGTemplate>

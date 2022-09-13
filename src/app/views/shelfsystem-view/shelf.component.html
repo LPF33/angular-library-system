@@ -14,8 +14,8 @@
         </button>
 
         <ng-container *ngFor="let board of shelf, let boardIndex = index">
-            <app-shelf-board *ngIf="checkIfString(board)" [shelf]="shelfIndex" [index]="boardIndex" [id]="$any(board)" (delete)="deleteShelfItem(shelfIndex , boardIndex)"></app-shelf-board>
-            <app-shelf-empty *ngIf="board === 0" [shelf]="shelfIndex" [index]="boardIndex" (delete)="deleteShelfItem(shelfIndex , boardIndex)"></app-shelf-empty>
+            <app-shelf-board *ngIf="board" [shelf]="shelfIndex" [index]="boardIndex" [id]="board" [systemid]="systemId" (delete)="deleteShelfItem(shelfIndex , boardIndex)" [newSystem]="newSystem"></app-shelf-board>
+            <app-shelf-empty *ngIf="!board" [shelf]="shelfIndex" [index]="boardIndex" (delete)="deleteShelfItem(shelfIndex , boardIndex)"></app-shelf-empty>
         </ng-container>
         <div class="buttons">
             <button mat-flat-button color="primary" (click)="addBoard(shelfIndex , 'board')">
@@ -33,7 +33,7 @@
             </button>
         </div>
 
-        <button mat-icon-button class="shelf-right" *ngIf="last" (click)="addShelf('first')">
+        <button mat-icon-button class="shelf-right" *ngIf="last" (click)="addShelf('last')">
             <mat-icon>
                 <span class="material-icons">shelves</span>
             </mat-icon>

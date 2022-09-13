@@ -1,0 +1,6 @@
+<ng-container *ngIf="shelfsystems.length, empty">
+    <a *ngFor="let system of shelfsystems" [routerLink]="['/add/'+system.systemid]">{{system.systemname}}</a>
+</ng-container>
+<ng-template #empty>
+    <p>Die Bibliothek ist noch leer!</p>
+</ng-template>
