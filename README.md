@@ -1,7 +1,11 @@
 # Library System
 
-Started with project "Library System". Register all your books in different shelves and in different places. Should help to find your books.
-Database connection missing. Just started!
+Register all your books in different shelves in different rooms/places.
+- Search for books
+- See all shelf systems
+- add new shelf systems
+
+Still under construction!
 
 # Test
 
