@@ -19,9 +19,15 @@ export class LibraryViewComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getSystems(){
+  getSystems() {
     this.http.get<IResultLibrary>("/v1/shelfsystems").subscribe((response) => {
-      this.shelfsystems = response.result;
+      this.shelfsystems = response.result.sort((a, b) => {
+        let x = a.systemname.toLowerCase();
+        let y = b.systemname.toLowerCase();
+        if (x < y) { return -1; }
+        if (x > y) { return 1; }
+        return 0;
+      });
     });
   }
 

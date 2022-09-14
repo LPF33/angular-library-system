@@ -29,6 +29,7 @@ import { ShelfEmptyComponent } from './components/shelf-empty/shelf-empty.compon
 import { ShelfEditBoardComponent } from './components/shelf-edit-board/shelf-edit-board.component';
 import { AddBookComponent } from './components/add-book/add-book.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { BooksPreviewComponent } from './components/books-preview/books-preview.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
     HomeViewComponent,
     HoverDirective,
     LibraryViewComponent,
+    BooksPreviewComponent,
   ],
   imports: [
     BrowserModule,

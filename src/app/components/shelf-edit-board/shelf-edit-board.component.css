@@ -26,3 +26,14 @@ button.add-book {
     display: flex;
     justify-content: center;
 }
+
+.add-book-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-book-button button {
+    padding: 10px;
+    margin-right: 20px;
+}

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
 import { UuidService } from 'src/app/services/uuid.service';
-import { IResultShelfSystem } from 'src/app/types';
+import { IGetResultShelfSystem } from 'src/app/types';
 
 @Component({
   selector: 'app-shelf',
@@ -17,18 +17,19 @@ export class ShelfComponent implements OnInit {
   alreadySaved: boolean = false;
   newSystem: boolean = true;
 
-  constructor(private route: ActivatedRoute, private uuidService: UuidService, private http: HttpService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private uuidService: UuidService, private http: HttpService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null) {
-      this.getShelfSystem(id);
+      return this.getShelfSystem(id);
     }
   }
 
   start() {
     this.systemId = this.uuidService.getId();
     this.shelfsystem.push([]);
+    this.save();
   }
 
   addShelf(type: "first" | "last") {
@@ -73,14 +74,17 @@ export class ShelfComponent implements OnInit {
   }
 
   getShelfSystem(id: string) {
-    this.http.get<IResultShelfSystem>("/v1/shelfsystem/" + id).subscribe(response => {
-      if (Array.isArray(response.result) && response.result.length) {
-        this.systemName = response.result[0].systemname;
-        this.systemId = response.result[0].systemid;
-        this.shelfsystem = response.result[0].system;
-        this.alreadySaved = true;
-        this.newSystem = false;
-      }
+    this.http.get<IGetResultShelfSystem>("/v1/shelfsystem/" + id).subscribe({
+      next: (response) => {
+        if (Array.isArray(response.result) && response.result.length) {
+          this.systemName = response.result[0].systemname;
+          this.systemId = response.result[0].systemid;
+          this.shelfsystem = response.result[0].system;
+          this.alreadySaved = true;
+          this.newSystem = false;
+        }
+      },
+      error: () => this.router.navigate(['/add'])
     })
   }
 }

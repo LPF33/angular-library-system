@@ -1,12 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
+import { ShareDataService } from 'src/app/services/share-data.service';
 
 @Component({
   selector: 'app-shelf-board',
   templateUrl: './shelf-board.component.html',
   styleUrls: ['./shelf-board.component.css']
 })
-export class ShelfBoardComponent implements OnInit {
+export class ShelfBoardComponent implements OnInit, OnDestroy {
 
   @Input() shelf?: number;
   @Input() index?: number;
@@ -19,12 +21,19 @@ export class ShelfBoardComponent implements OnInit {
   @Output() delete = new EventEmitter();
 
   showEditBoard: boolean = false;
+  bookIndex: number | null = null;
+  subscription?: Subscription;
 
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService, private shareData: ShareDataService) { }
 
   ngOnInit(): void {
-    if (this.newSystem === false) {
-      this.loadShelf();
+    this.subscription = this.shareData.currentData.subscribe(data => this.bookIndex = data)
+  }
+
+  ngOnDestroy() {
+    this.shareData.changeData(null);
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 
@@ -36,9 +45,7 @@ export class ShelfBoardComponent implements OnInit {
     this.showEditBoard = !this.showEditBoard;
   }
 
-  loadShelf() {
-    this.http.get("/v1/shelf/" + this.shelfid).subscribe(response => {
-      console.log(response);
-    })
+  previewBook(index: number) {
+    this.shareData.changeData(index);
   }
 }

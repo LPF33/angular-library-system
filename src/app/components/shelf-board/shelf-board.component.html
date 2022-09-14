@@ -15,6 +15,6 @@
 <ng-template #onlySVGTemplate>
     <svg width="200" height="60">
         <rect width="200" height="60" stroke="white" stroke-width="10" />
-        <rect *appLoopTimes="books; let i = index;" [attr.x]="5+14*i" y="6" width="10" height="48" fill="blue" stroke="red" stroke-width="2" />
+        <rect *appLoopTimes="books; let i = index; let color = color;" [attr.x]="5+12*i" y="6" width="10" height="48" [attr.fill]="color" [attr.stroke]="bookIndex === i ? 'yellow' : 'transparent'" stroke-width="1" (click)="previewBook(i)" />
     </svg>
 </ng-template>

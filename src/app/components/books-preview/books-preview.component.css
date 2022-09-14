@@ -1,0 +1,17 @@
+:host {
+    padding: 20px;
+    margin: 10px;
+    background-color: white;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+span {
+    text-align: center;
+}
+
+h3 {
+    color: inherit
+}

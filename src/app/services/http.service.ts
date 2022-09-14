@@ -14,11 +14,11 @@ export class HttpService {
     return this.http.get<T>(this.host + url);
   }
 
-  public post(url: string, body: any) {
-    return this.http.post(this.host + url, body);
+  public post<T>(url: string, body: any): Observable<T> {
+    return this.http.post<T>(this.host + url, body);
   }
 
-  public put(url: string, body: any) {
-    return this.http.put(this.host + url, body);
+  public put<T>(url: string, body: any): Observable<T> {
+    return this.http.put<T>(this.host + url, body);
   }
 }

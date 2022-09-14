@@ -14,7 +14,7 @@
         </button>
 
         <ng-container *ngFor="let board of shelf, let boardIndex = index">
-            <app-shelf-board *ngIf="board" [shelf]="shelfIndex" [index]="boardIndex" [id]="board" [systemid]="systemId" (delete)="deleteShelfItem(shelfIndex , boardIndex)" [newSystem]="newSystem"></app-shelf-board>
+            <app-shelf-board *ngIf="board" [shelf]="shelfIndex" [index]="boardIndex" [shelfid]="board" [systemid]="systemId" (delete)="deleteShelfItem(shelfIndex , boardIndex)" [newSystem]="newSystem"></app-shelf-board>
             <app-shelf-empty *ngIf="!board" [shelf]="shelfIndex" [index]="boardIndex" (delete)="deleteShelfItem(shelfIndex , boardIndex)"></app-shelf-empty>
         </ng-container>
         <div class="buttons">
