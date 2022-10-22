@@ -8,10 +8,18 @@
     position: relative;
 }
 
-h2.system {
+.system-name {
     position: absolute;
     top: 10px;
     left: 10px;
+    z-index: 2;
+}
+
+.system-name input {
+    background-color: black;
+    color: white;
+    font-size: 1.5rem;
+    margin-right: 10px;
 }
 
 .shelf {
@@ -47,13 +55,6 @@ label {
     color: white;
 }
 
-.save {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-}
-
 .shelf-left {
     position: absolute;
     top: 50%;
@@ -68,6 +69,10 @@ label {
     right: 0;
     transform: translateY(-50%);
     color: white;
+}
+
+button {
+    cursor: pointer;
 }
 
 .buttons {

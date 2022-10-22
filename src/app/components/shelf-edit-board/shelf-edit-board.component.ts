@@ -11,10 +11,8 @@ import { IBook, IGetResultShelf, IPutPostDeleteResult } from 'src/app/types';
 })
 export class ShelfEditBoardComponent implements OnInit, OnDestroy {
 
-  @Input() index?: number;
   @Input() shelfid?: string;
   @Input() systemid?: string;
-  @Input() newSystem?: boolean;
   @Output() closeEdit = new EventEmitter();
 
   subscription?: Subscription;
@@ -22,6 +20,7 @@ export class ShelfEditBoardComponent implements OnInit, OnDestroy {
   booksCount: number = 0;
   shelfSaved: boolean = false;
   bookPreviewId: string | null = null;
+  newSystem: boolean = false;
 
   constructor(private http: HttpService, private shareData: ShareDataService) { }
 

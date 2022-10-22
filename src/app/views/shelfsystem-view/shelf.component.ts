@@ -1,90 +1,60 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpService } from 'src/app/services/http.service';
+import { Observable, subscribeOn, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { IStateShelfSystem } from 'src/app/state/state.types';
+import { setName, newShelfSystem, loadShelfSystem, addShelf, deleteShelf, addShelfBoard, deleteShelfBoard } from 'src/app/state/app.actions';
 import { UuidService } from 'src/app/services/uuid.service';
-import { IGetResultShelfSystem } from 'src/app/types';
 
 @Component({
   selector: 'app-shelf',
   templateUrl: './shelf.component.html',
   styleUrls: ['./shelf.component.css']
 })
-export class ShelfComponent implements OnInit {
+export class ShelfSystemViewComponent implements OnInit {
 
-  shelfsystem: (string)[][] = [];
   systemName: string = "";
-  systemId: string = "";
-  alreadySaved: boolean = false;
-  newSystem: boolean = true;
+  systemNameChanged: boolean = false;
+  shelfSystem$: Observable<IStateShelfSystem>;
 
-  constructor(private route: ActivatedRoute, private router: Router, private uuidService: UuidService, private http: HttpService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private uuidService: UuidService, private store: Store<{ shelfSystem: IStateShelfSystem }>) {
+    this.shelfSystem$ = store.select('shelfSystem');
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null) {
-      return this.getShelfSystem(id);
+      return this.store.dispatch(loadShelfSystem({ id }));
     }
   }
 
   start() {
-    this.systemId = this.uuidService.getId();
-    this.shelfsystem.push([]);
-    this.save();
+    this.store.dispatch(newShelfSystem({ id: this.uuidService.getId(), name: this.systemName }));
   }
 
   addShelf(type: "first" | "last") {
-    if (type === "first") {
-      this.shelfsystem.unshift([]);
-    } else {
-      this.shelfsystem.push([]);
-    }
+    this.store.dispatch(addShelf({ add: type }));
   }
 
   deleteShelf(index: number) {
-    this.shelfsystem.splice(index, 1);
+    this.store.dispatch(deleteShelf({ index }));
   }
 
   addBoard(shelfIndex: number, type: "board" | "empty") {
-    this.shelfsystem[shelfIndex].unshift(type === "board" ? this.uuidService.getId() : "");
+    this.store.dispatch(addShelfBoard({ shelfIndex, board: type === "board" ? this.uuidService.getId() : "" }));
   }
 
   deleteShelfItem(shelfIndex: number, boardIndex: number) {
-    this.shelfsystem[shelfIndex].splice(boardIndex, 1);
+    this.store.dispatch(deleteShelfBoard({ shelfIndex, boardIndex }));
   }
 
-  save() {
-    if (!this.alreadySaved) {
-      this.http.post("/v1/shelfsystem/", {
-        systemname: this.systemName,
-        systemid: this.systemId,
-        system: this.shelfsystem
-      }).subscribe(response => {
-        console.log(response);
-        this.alreadySaved = true;
-      });
-    } else {
-      this.http.put("/v1/shelfsystem/", {
-        systemname: this.systemName,
-        systemid: this.systemId,
-        system: this.shelfsystem
-      }).subscribe(response => {
-        console.log(response);
-      });
-    }
+  inputEvent(event: Event) {
+    this.systemNameChanged = true;
+    this.systemName = (event.target as HTMLInputElement)?.value ?? "";
   }
 
-  getShelfSystem(id: string) {
-    this.http.get<IGetResultShelfSystem>("/v1/shelfsystem/" + id).subscribe({
-      next: (response) => {
-        if (Array.isArray(response.result) && response.result.length) {
-          this.systemName = response.result[0].systemname;
-          this.systemId = response.result[0].systemid;
-          this.shelfsystem = response.result[0].system;
-          this.alreadySaved = true;
-          this.newSystem = false;
-        }
-      },
-      error: () => this.router.navigate(['/add'])
-    })
+  saveName() {
+    this.store.dispatch(setName({ name: this.systemName }));
+    this.systemNameChanged = false;
   }
 }

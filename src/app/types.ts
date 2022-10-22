@@ -13,15 +13,16 @@ export interface ISystem {
 export interface IResultLibrary {
     result: Omit<ISystem, "system">[];
 }
+export interface IDatabaseShelfSystem {
+    id: number;
+    systemid: string;
+    systemname: string;
+    system: string[][];
+    created_at: string;
+}
 
 export interface IGetResultShelfSystem {
-    result: {
-        id: number;
-        system: string[][];
-        systemid: string;
-        systemname: string;
-        created_at: string;
-    }[];
+    result: IDatabaseShelfSystem[];
 }
 
 export interface IGetResultShelf {
@@ -48,4 +49,9 @@ export interface IGetResultBook {
 
 export interface IPutPostDeleteResult {
     success: boolean;
+}
+
+export interface IPostShelfSystem {
+    success: boolean;
+    result?: IDatabaseShelfSystem;
 }

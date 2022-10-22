@@ -10,13 +10,10 @@ import { ShareDataService } from 'src/app/services/share-data.service';
 })
 export class ShelfBoardComponent implements OnInit, OnDestroy {
 
-  @Input() shelf?: number;
-  @Input() index?: number;
-  @Input() systemid?: string;
+  // @Input() systemid?: string;  from store
   @Input() shelfid?: string;
   @Input() onlySVG: boolean = false;
   @Input() books: number = 0;
-  @Input() newSystem?: boolean;
 
   @Output() delete = new EventEmitter();
 
