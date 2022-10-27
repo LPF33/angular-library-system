@@ -23,9 +23,11 @@ export class ShelfSystemViewComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+    const shelfId = this.route.snapshot.paramMap.get('shelfId');
+    const shelfIndex = this.route.snapshot.paramMap.has('shelfIndex') ? Number(this.route.snapshot.paramMap.get('shelfIndex')) : null;
     this.store.dispatch(resetStore());
     if (id !== null) {
-      return this.store.dispatch(loadShelfSystem({ id }));
+      return this.store.dispatch(loadShelfSystem({ id, shelfId, shelfIndex }));
     }
   }
 

@@ -15,6 +15,18 @@ export interface IShelves {
     books: number;
 }
 
+export interface ISearchBooks {
+    author: string;
+    bookid: string;
+    created_at: string;
+    description: string;
+    id: number
+    shelfid: string;
+    shelfindex: number;
+    systemid: string;
+    title: string;
+}
+
 export interface IResultLibrary {
     result: Omit<ISystem, "system">[];
 }
@@ -43,15 +55,7 @@ export interface IGetResultShelf {
 }
 
 export interface IGetResultBook {
-    result: {
-        author: string;
-        bookid: string;
-        created_at: string;
-        description: string;
-        id: number
-        shelfid: string;
-        title: string;
-    }[];
+    result: ISearchBooks[];
 }
 
 export interface IPutPostDeleteResult {

@@ -1,7 +1,7 @@
 <ng-container *ngIf="!onlySVG, else onlySVGTemplate">
     <svg width="200" height="60" (click)="editBoard()" appHover [class]="'shelf-border'">
-        <rect width="200" height="60" stroke="white" stroke-width="10" class="shelf-border"/>
-        <rect *appLoopTimes="books ?? 0; let i = index; let color = color;" [attr.x]="5+14*i" y="6" width="10" height="48" [attr.fill]="color" stroke="red" stroke-width="2" />
+        <rect width="200" height="60" [attr.stroke]="foundShelfIndex !== null ?  'yellow' : 'white'" stroke-width="10" class="shelf-border"/>
+        <rect *appLoopTimes="books ?? 0; let i = index; let color = color;" [attr.x]="5+14*i" y="6" width="10" height="48" [attr.fill]="foundShelfIndex === i ? 'transparent' : color" [attr.stroke]="foundShelfIndex === i ? 'yellow' : 'red'" [attr.stroke-width]="foundShelfIndex === i ? 3 : 1" />
     </svg>
     <button mat-icon-button color="warn" (click)="deleteSelf()">
         <mat-icon>

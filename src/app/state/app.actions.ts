@@ -7,9 +7,9 @@ export const saveNewShelfSystem = createAction('[ShelfSystem] Save New Shelf in 
 
 export const newShelfSystem = createAction('[ShelfSystem] Set Name & Id', props<{ id: string, name: string }>())
 
-export const loadShelfSystem = createAction('[ShelfSystem] Load System', props<{ id: string }>());
+export const loadShelfSystem = createAction('[ShelfSystem] Load System', props<{ id: string, shelfId: string | null, shelfIndex: number | null }>());
 
-export const loadShelfSystemSuccess = createAction('[ShelfSystem] Load System into Store', props<{ system: IDatabaseShelfSystem }>());
+export const loadShelfSystemSuccess = createAction('[ShelfSystem] Load System into Store', props<{ system: IDatabaseShelfSystem, shelfId: string | null, shelfIndex: number | null }>());
 
 export const setError = createAction('[ShelfSystem] Set Error and Message', props<{ error: boolean, message: string }>());
 

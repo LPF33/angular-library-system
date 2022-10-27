@@ -8,3 +8,5 @@ export const selectSystemId = createSelector(selectShelfSystem, ({ systemId }) =
 export const selectNewSystem = createSelector(selectShelfSystem, ({ newSystem }) => newSystem);
 
 export const selectShelfBooks = createSelector(selectShelfSystem, ({ shelves }) => shelves);
+
+export const selectFoundShelfIdIndex = createSelector(selectShelfSystem, ({ foundShelfId, foundShelfIndex }) => ({ foundShelfId, foundShelfIndex }));

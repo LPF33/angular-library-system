@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, catchError, map, of } from 'rxjs';
-import { IGetResultShelfSystem, IPostShelfSystem } from '../types';
+import { IGetResultBook, IGetResultShelfSystem, IPostShelfSystem } from '../types';
 
 @Injectable({
   providedIn: 'root'
@@ -32,14 +32,14 @@ export class HttpStoreService {
     })
   }
 
-  public saveShelf(shelfId: string, systemId: string) {
+  public saveShelf(shelfId: string, systemId: string): Observable<IPostShelfSystem> {
     return this.http.post<IPostShelfSystem>(this.host + "/v1/shelf/", {
       systemid: systemId,
       shelfid: shelfId,
     })
   }
 
-  public saveBook(bookId: string, shelfId: string, author: string, title: string, shelfIndex: number) {
+  public saveBook(bookId: string, shelfId: string, author: string, title: string, shelfIndex: number): Observable<IPostShelfSystem> {
     return this.http.post<IPostShelfSystem>(this.host + "/v1/book/", {
       bookid: bookId,
       shelfid: shelfId,
@@ -47,6 +47,10 @@ export class HttpStoreService {
       title,
       shelfindex: shelfIndex
     })
+  }
+
+  public searchBook(search: string): Observable<IGetResultBook> {
+    return this.http.get<IGetResultBook>(this.host + "/v1/book/search?q=" + search)
   }
 
   public post<T>(url: string, body: any): Observable<T> {

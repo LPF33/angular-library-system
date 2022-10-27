@@ -14,14 +14,14 @@ export class ShelfSystemEffects {
     loadShelfSystem$ = createEffect(() =>
         this.actions$.pipe(
             ofType(ShelfActions.loadShelfSystem),
-            switchMap(({ id }) =>
+            switchMap(({ id, shelfId, shelfIndex }) =>
                 this.http.getShelfSystem(id).pipe(
                     map((val) => {
                         if (!val.result || !val.result.length) {
                             this.router.navigate(['/add']);
                             return ShelfActions.resetStore();
                         }
-                        return ShelfActions.loadShelfSystemSuccess({ system: val.result[0] });
+                        return ShelfActions.loadShelfSystemSuccess({ system: val.result[0], shelfId, shelfIndex });
                     }),
                     catchError(err => of(ShelfActions.setError({ error: true, message: err.message }))),
                 )

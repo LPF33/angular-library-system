@@ -8,6 +8,7 @@ import { LibraryViewComponent } from './views/library-view/library-view.componen
 const routes: Routes = [
   { path: "add", component: ShelfSystemViewComponent },
   { path: "add/:id", component: ShelfSystemViewComponent },
+  { path: "add/:id/:shelfId/:shelfIndex", component: ShelfSystemViewComponent },
   { path: "search", component: FindBookViewComponent },
   { path: "library", component: LibraryViewComponent },
   { path: "", component: HomeViewComponent },

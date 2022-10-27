@@ -1,2 +1,14 @@
-<h1>Suche eine Buch nach Titel oder Autor</h1>
-<input type="text" placeholder="Suchbegriff ?"/>
+<h1>Suche ein Buch nach Titel oder Autor</h1>
+<input type="text" placeholder="Suchbegriff" [(ngModel)]="search" (input)="inputChange($event)" />
+
+<div *ngIf="foundBooks !== null">
+    <ng-container *ngIf="foundBooks.length; else notFound">
+        <a *ngFor="let book of foundBooks" [routerLink]="['/add/' + book.systemid + '/' + book.shelfid + '/' + book.shelfindex]">
+            <h2>{{book.title}}</h2>
+            <p>{{book.author}}</p>
+        </a>
+    </ng-container>
+    <ng-template #notFound>
+        <p>Nothing found!</p>
+    </ng-template>
+</div>

@@ -9,6 +9,8 @@ export interface IStateShelfSystem {
     loading: boolean;
     error: boolean;
     errorMessage: string | null;
+    foundShelfId: string | null;
+    foundShelfIndex: number | null;
 }
 
 export interface IAppState {
