@@ -9,7 +9,8 @@ import { IGetResultBook } from 'src/app/types';
 })
 export class BooksPreviewComponent implements OnChanges {
 
-  @Input() bookId?: string;
+  @Input() bookIndex?: number;
+  @Input() shelfId?: string;
 
   title: string = "";
   author: string = "";
@@ -22,7 +23,7 @@ export class BooksPreviewComponent implements OnChanges {
   }
 
   loadBook() {
-    this.http.get<IGetResultBook>("/v1/book/" + this.bookId).subscribe(response => {
+    this.http.get<IGetResultBook>(`/v1/book/${this.bookIndex}/${this.shelfId}`).subscribe(response => {
       if (Array.isArray(response.result) && response.result.length) {
         this.title = response.result[0].title;
         this.author = response.result[0].author;

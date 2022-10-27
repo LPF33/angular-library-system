@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { HttpService } from 'src/app/services/http.service';
 import { ShareDataService } from 'src/app/services/share-data.service';
 import { IBook, IGetResultShelf, IPutPostDeleteResult } from 'src/app/types';
+import { IAppState } from 'src/app/state/state.types';
+import { saveShelf, saveBook } from 'src/app/state/app.actions';
 
 @Component({
   selector: 'app-shelf-edit-board',
@@ -11,32 +14,25 @@ import { IBook, IGetResultShelf, IPutPostDeleteResult } from 'src/app/types';
 })
 export class ShelfEditBoardComponent implements OnInit, OnDestroy {
 
-  @Input() shelfid?: string;
-  @Input() systemid?: string;
+  @Input() shelfId?: string;
+  @Input() systemId?: string;
+  @Input() booksLength: null | number = null;
+
   @Output() closeEdit = new EventEmitter();
 
   subscription?: Subscription;
-  booksOnShelf: string[] = [];
-  booksCount: number = 0;
-  shelfSaved: boolean = false;
-  bookPreviewId: string | null = null;
-  newSystem: boolean = false;
+  bookPreviewId: number | null = null;
 
-  constructor(private http: HttpService, private shareData: ShareDataService) { }
+  constructor(private http: HttpService, private shareData: ShareDataService, private store: Store<IAppState>) { }
 
   ngOnInit(): void {
     this.subscription = this.shareData.currentData.subscribe(bookIndex => {
-      if (bookIndex !== null) {
-        this.bookPreviewId = this.booksOnShelf[bookIndex];
-      } else {
-        this.bookPreviewId = bookIndex;
-      }
+      this.bookPreviewId = bookIndex;
     });
 
-    if (this.newSystem) {
+    if (this.booksLength === null) {
       return this.saveShelf();
     }
-    this.loadShelf();
   }
 
   ngOnDestroy() {
@@ -54,52 +50,11 @@ export class ShelfEditBoardComponent implements OnInit, OnDestroy {
   }
 
   saveShelf() {
-    this.http.post<IPutPostDeleteResult>("/v1/shelf/", {
-      shelfid: this.shelfid,
-      systemid: this.systemid,
-      books: this.booksOnShelf,
-    }).subscribe(response => {
-      if (response.success) {
-        console.log("shelf saved", response);
-        this.shelfSaved = true;
-      }
-      // when no success & error
-    })
+    this.store.dispatch(saveShelf({ shelfId: this.shelfId as string, systemId: this.systemId as string }));
   }
 
   saveBook(bookId: string, title: string, author: string) {
-    this.http.post<IPutPostDeleteResult>("/v1/book/", {
-      bookid: bookId,
-      shelfid: this.shelfid,
-      author,
-      title,
-      books: [...this.booksOnShelf, bookId],
-    }).subscribe((response) => {
-      console.log("book saved", response);
-      if (response.success) {
-        this.booksCount++;
-        this.booksOnShelf.push(bookId);
-      }
-      // when no success & error
-    })
-  }
-
-  loadShelf() {
-    this.http.get<IGetResultShelf>("/v1/shelf/" + this.shelfid).subscribe({
-      next: (response) => {
-        console.log("shelfload", response);
-        if (Array.isArray(response.result) && response.result.length) {
-          this.shelfid = response.result[0].shelfid;
-          this.systemid = response.result[0].systemid;
-          this.booksOnShelf = response.result[0].books;
-          this.booksCount = this.booksOnShelf.length;
-          this.shelfSaved = true;
-        } else {
-          this.saveShelf();
-        }
-      },
-      error: (err) => console.log(err)
-    })
+    this.store.dispatch(saveBook({ bookId, shelfId: this.shelfId as string, author, title, shelfIndex: this.booksLength ?? 0 }));
   }
 
   noPreview() {

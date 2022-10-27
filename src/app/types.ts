@@ -10,6 +10,11 @@ export interface ISystem {
     system: string[];
 }
 
+export interface IShelves {
+    shelfid: string;
+    books: number;
+}
+
 export interface IResultLibrary {
     result: Omit<ISystem, "system">[];
 }
@@ -18,6 +23,7 @@ export interface IDatabaseShelfSystem {
     systemid: string;
     systemname: string;
     system: string[][];
+    shelves: IShelves[] | null;
     created_at: string;
 }
 
@@ -31,6 +37,7 @@ export interface IGetResultShelf {
         books: string[];
         shelfid: string;
         systemid: string;
+        shelves: IShelves[] | null;
         created_at: string;
     }[];
 }

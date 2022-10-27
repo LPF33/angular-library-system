@@ -16,38 +16,36 @@ export class HttpStoreService {
     return this.http.get<IGetResultShelfSystem>(this.host + "/v1/shelfsystem/" + id)
   }
 
-  public saveShelfSystem(id: string, name: string) {
-    this.http.post<IPostShelfSystem>(this.host + "/v1/shelfsystem/", {
+  public saveShelfSystem(id: string, name: string): Observable<IPostShelfSystem> {
+    return this.http.post<IPostShelfSystem>(this.host + "/v1/shelfsystem/", {
       systemid: id,
       systemname: name,
       system: [[]]
-    }).subscribe({
-      next: (response) => {
-        console.log(response);
-      }
     })
   }
 
-  public updateShelfSystem(id: string, name: string) {
-    this.http.post<IPostShelfSystem>(this.host + "/v1/shelfsystem/", {
+  public updateShelfSystem(id: string, name: string, system: string[][]): Observable<IPostShelfSystem> {
+    return this.http.put<IPostShelfSystem>(this.host + "/v1/shelfsystem/", {
       systemid: id,
       systemname: name,
-      system: [[]]
-    }).subscribe({
-      next: (response) => {
-        console.log(response);
-      }
+      system
     })
   }
 
-  public updateShelfSystemName(id: string, name: string) {
-    this.http.put<IPostShelfSystem>(this.host + "/v1/shelfsystemname/", {
-      systemid: id,
-      systemname: name,
-    }).subscribe({
-      next: (response) => {
-        console.log(response);
-      }
+  public saveShelf(shelfId: string, systemId: string) {
+    return this.http.post<IPostShelfSystem>(this.host + "/v1/shelf/", {
+      systemid: systemId,
+      shelfid: shelfId,
+    })
+  }
+
+  public saveBook(bookId: string, shelfId: string, author: string, title: string, shelfIndex: number) {
+    return this.http.post<IPostShelfSystem>(this.host + "/v1/book/", {
+      bookid: bookId,
+      shelfid: shelfId,
+      author,
+      title,
+      shelfindex: shelfIndex
     })
   }
 

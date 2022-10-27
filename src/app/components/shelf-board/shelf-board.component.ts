@@ -1,7 +1,10 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
 import { ShareDataService } from 'src/app/services/share-data.service';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/state/state.types';
+import { selectNewSystem, selectShelfBooks, selectSystemId } from 'src/app/state/app.selector';
 
 @Component({
   selector: 'app-shelf-board',
@@ -10,27 +13,38 @@ import { ShareDataService } from 'src/app/services/share-data.service';
 })
 export class ShelfBoardComponent implements OnInit, OnDestroy {
 
-  // @Input() systemid?: string;  from store
   @Input() shelfid?: string;
   @Input() onlySVG: boolean = false;
-  @Input() books: number = 0;
 
   @Output() delete = new EventEmitter();
 
   showEditBoard: boolean = false;
   bookIndex: number | null = null;
   subscription?: Subscription;
+  booksSubscription$?: Subscription;
+  books: number | null = null;
+  newSystem$?: Observable<boolean>;
+  systemId$?: Observable<string | null>;
 
-  constructor(private http: HttpService, private shareData: ShareDataService) { }
+
+  constructor(private http: HttpService, private shareData: ShareDataService, private store: Store<IAppState>) { }
 
   ngOnInit(): void {
     this.subscription = this.shareData.currentData.subscribe(data => this.bookIndex = data)
+    this.newSystem$ = this.store.select(selectNewSystem);
+    this.systemId$ = this.store.select(selectSystemId);
+    this.booksSubscription$ = this.store.select(selectShelfBooks).pipe(map(item => item !== null && item.filter(i => i.shelfid === this.shelfid)), map(item => item && item.length > 0 && item[0].books)).subscribe(result => {
+      this.books = result !== false ? result : null;
+    })
   }
 
   ngOnDestroy() {
     this.shareData.changeData(null);
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.booksSubscription$) {
+      this.booksSubscription$.unsubscribe();
     }
   }
 

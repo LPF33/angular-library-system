@@ -4,11 +4,11 @@
         <span class="material-icons">highlight_off</span>
     </mat-icon>
 </button>
-<app-shelf-board [onlySVG]=true [books]="booksCount" class="shelf-board"></app-shelf-board>
+<app-shelf-board [onlySVG]=true [shelfid]="shelfId" class="shelf-board"></app-shelf-board>
 
-<app-add-book *ngIf="!bookPreviewId" (addBook)="addBook($event)"></app-add-book>
+<app-add-book *ngIf="bookPreviewId === null" (addBook)="addBook($event)"></app-add-book>
 
-<app-books-preview *ngIf="bookPreviewId" [bookId]="bookPreviewId"></app-books-preview>
+<app-books-preview *ngIf="bookPreviewId !== null" [bookIndex]="bookPreviewId" [shelfId]="shelfId"></app-books-preview>
 
 <div *ngIf="bookPreviewId" class="add-book-button">
     <button mat-flat-button color="primary" (click)="noPreview()">Neues Buch hinzufügen</button>
