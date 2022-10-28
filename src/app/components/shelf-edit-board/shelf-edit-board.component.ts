@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { HttpService } from 'src/app/services/http.service';
 import { ShareDataService } from 'src/app/services/share-data.service';
 import { IBook, IGetResultShelf, IPutPostDeleteResult } from 'src/app/types';
 import { IAppState } from 'src/app/state/state.types';
@@ -23,7 +22,7 @@ export class ShelfEditBoardComponent implements OnInit, OnDestroy {
   subscription?: Subscription;
   bookPreviewId: number | null = null;
 
-  constructor(private http: HttpService, private shareData: ShareDataService, private store: Store<IAppState>) { }
+  constructor(private shareData: ShareDataService, private store: Store<IAppState>) { }
 
   ngOnInit(): void {
     this.subscription = this.shareData.currentData.subscribe(bookIndex => {

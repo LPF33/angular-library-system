@@ -1,4 +1,7 @@
-<span>Titel:</span>
-<h3>{{title}}</h3>
-<span>Autor:</span>
-<h3>{{author}}</h3>
+<ng-container *ngIf="foundBook$ | async as book">
+    <span>Titel:</span>
+    <h3>{{book.title}}</h3>
+    <span>Autor:</span>
+    <h3>{{book.author}}</h3>
+</ng-container>
+

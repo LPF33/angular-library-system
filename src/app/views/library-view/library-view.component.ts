@@ -1,34 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
-import { IResultLibrary, ISystem } from 'src/app/types';
-import { Observer } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { map, catchError, of, Observable } from 'rxjs';
+import { ISystem } from 'src/app/types';
+import { IAppState } from 'src/app/state/state.types';
+import { setError } from 'src/app/state/app.actions';
 
 @Component({
   selector: 'app-library-view',
   templateUrl: './library-view.component.html',
   styleUrls: ['./library-view.component.css']
 })
-export class LibraryViewComponent implements OnInit {
+export class LibraryViewComponent {
 
-  shelfsystems: Omit<ISystem, "system">[] = [];
+  shelfsystems$: Observable<Omit<ISystem, "system">[]> = of([]);
 
-  constructor(private http: HttpService) {
+  constructor(private http: HttpService, private store: Store<IAppState>) {
     this.getSystems();
   }
 
-  ngOnInit(): void {
-  }
-
   getSystems() {
-    this.http.get<IResultLibrary>("/v1/shelfsystems").subscribe((response) => {
-      this.shelfsystems = response.result.sort((a, b) => {
+    this.shelfsystems$ = this.http.getShelfSystems().pipe(
+      map(response => {
+        if (response.result) {
+          return response.result;
+        }
+        throw new Error("Server error");
+      }),
+      map(result => result.sort((a, b) => {
         let x = a.systemname.toLowerCase();
         let y = b.systemname.toLowerCase();
         if (x < y) { return -1; }
         if (x > y) { return 1; }
         return 0;
-      });
-    });
+      })),
+      catchError(err => {
+        this.store.dispatch(setError({ error: true, message: err.message }))
+        return of([]);
+      })
+    )
   }
-
 }

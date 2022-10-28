@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpStoreService } from 'src/app/services/http-store.service';
+import { HttpService } from 'src/app/services/http.service';
+import { Store } from '@ngrx/store';
 import { ISearchBooks } from 'src/app/types';
+import { IAppState } from 'src/app/state/state.types';
+import { map, catchError, of, Observable } from 'rxjs';
+import { setError } from 'src/app/state/app.actions';
 
 @Component({
   selector: 'app-find-book-view',
@@ -10,19 +14,27 @@ import { ISearchBooks } from 'src/app/types';
 export class FindBookViewComponent implements OnInit {
 
   search: string = "";
-  foundBooks: null | ISearchBooks[] = null;
+  foundBooks$: Observable<null | ISearchBooks[]> = of(null);
 
-  constructor(private http: HttpStoreService) { }
+  constructor(private http: HttpService, private store: Store<IAppState>) { }
 
   ngOnInit(): void {
   }
 
   inputChange(event: Event) {
     if ((event.target as HTMLInputElement)?.value) {
-      this.http.searchBook((event.target as HTMLInputElement).value).subscribe({
-        next: (response) => this.foundBooks = response.result,
-        error: (err) => console.log(err)
-      });
+      this.foundBooks$ = this.http.searchBook((event.target as HTMLInputElement).value).pipe(
+        map(response => {
+          if (response.result) {
+            return response.result;
+          }
+          throw new Error("Server error");
+        }),
+        catchError(err => {
+          this.store.dispatch(setError({ error: true, message: err.message }))
+          return of(null);
+        })
+      )
     }
   }
 

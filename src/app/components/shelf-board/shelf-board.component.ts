@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Observable, Subscription, map, filter } from 'rxjs';
-import { HttpService } from 'src/app/services/http.service';
 import { ShareDataService } from 'src/app/services/share-data.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/state/state.types';
@@ -11,7 +10,7 @@ import { selectFoundShelfIdIndex, selectNewSystem, selectShelfBooks, selectSyste
   templateUrl: './shelf-board.component.html',
   styleUrls: ['./shelf-board.component.css']
 })
-export class ShelfBoardComponent implements OnInit, OnDestroy {
+export class ShelfBoardComponent implements OnDestroy {
 
   @Input() shelfid?: string;
   @Input() onlySVG: boolean = false;
@@ -19,41 +18,25 @@ export class ShelfBoardComponent implements OnInit, OnDestroy {
   @Output() delete = new EventEmitter();
 
   showEditBoard: boolean = false;
-  bookIndex: number | null = null;
-  subscription?: Subscription;
-  booksSubscription$?: Subscription;
-  books: number | null = null;
-  newSystem$?: Observable<boolean>;
-  systemId$?: Observable<string | null>;
-  foundShelfSubscription$?: Subscription;
-  foundShelfIndex: number | null = null;
+  bookIndex$: Observable<number | null>;
+  booksLength$: Observable<number | null>;
+  systemId$: Observable<string | null>;
+  foundShelf$: Observable<number | null>;
 
 
-  constructor(private http: HttpService, private shareData: ShareDataService, private store: Store<IAppState>) { }
-
-  ngOnInit(): void {
-    this.subscription = this.shareData.currentData.subscribe(data => this.bookIndex = data)
-    this.newSystem$ = this.store.select(selectNewSystem);
+  constructor(private shareData: ShareDataService, private store: Store<IAppState>) {
+    this.bookIndex$ = shareData.currentData;
     this.systemId$ = this.store.select(selectSystemId);
-    this.booksSubscription$ = this.store.select(selectShelfBooks)
-      .pipe(map(item => item !== null && item.filter(i => i.shelfid === this.shelfid)), map(item => item && item.length > 0 && item[0].books))
-      .subscribe(result => this.books = result !== false ? result : null)
-    this.foundShelfSubscription$ = this.store.select(selectFoundShelfIdIndex)
-      .pipe(filter(item => item.foundShelfId === this.shelfid))
-      .subscribe(result => this.foundShelfIndex = result.foundShelfIndex);
+    this.booksLength$ = this.store.select(selectShelfBooks)
+      .pipe(map(item => item && item.filter(i => i.shelfid === this.shelfid)),
+        map(item => item && item.length > 0 && item[0].books),
+        map(item => item === false ? null : item))
+    this.foundShelf$ = this.store.select(selectFoundShelfIdIndex)
+      .pipe(filter(item => item.foundShelfId === this.shelfid), map(item => item.foundShelfIndex))
   }
 
   ngOnDestroy() {
     this.shareData.changeData(null);
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-    if (this.booksSubscription$) {
-      this.booksSubscription$.unsubscribe();
-    }
-    if (this.foundShelfSubscription$) {
-      this.foundShelfSubscription$.unsubscribe();
-    }
   }
 
   deleteSelf() {

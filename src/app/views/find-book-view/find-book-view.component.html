@@ -1,7 +1,8 @@
 <h1>Suche ein Buch nach Titel oder Autor</h1>
 <input type="text" placeholder="Suchbegriff" [(ngModel)]="search" (input)="inputChange($event)" />
 
-<div *ngIf="foundBooks !== null">
+<div *ngIf="foundBooks$ | async as foundBooks">
+    <h1>Gefundene Ergebnisse:</h1>
     <ng-container *ngIf="foundBooks.length; else notFound">
         <a *ngFor="let book of foundBooks" [routerLink]="['/add/' + book.systemid + '/' + book.shelfid + '/' + book.shelfindex]">
             <h2>{{book.title}}</h2>

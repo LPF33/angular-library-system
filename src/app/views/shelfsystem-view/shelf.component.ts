@@ -1,4 +1,4 @@
-import { Component, OnInit, ɵclearResolutionOfComponentResourcesQueue } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, subscribeOn, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';

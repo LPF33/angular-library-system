@@ -5,7 +5,7 @@ export interface IStateShelfSystem {
     systemName: string | null;
     system: string[][];
     newSystem: boolean;
-    shelves: IShelves[] | null;
+    shelves: IShelves[];
     loading: boolean;
     error: boolean;
     errorMessage: string | null;

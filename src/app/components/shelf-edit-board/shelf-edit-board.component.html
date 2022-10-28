@@ -10,7 +10,7 @@
 
 <app-books-preview *ngIf="bookPreviewId !== null" [bookIndex]="bookPreviewId" [shelfId]="shelfId"></app-books-preview>
 
-<div *ngIf="bookPreviewId" class="add-book-button">
+<div *ngIf="bookPreviewId !== null" class="add-book-button">
     <button mat-flat-button color="primary" (click)="noPreview()">Neues Buch hinzufügen</button>
     <mat-icon color="primary">
         <span class="material-icons">menu_book</span>

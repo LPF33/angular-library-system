@@ -8,7 +8,7 @@ export const initialState: IStateShelfSystem = {
     systemName: null,
     system: [],
     newSystem: false,
-    shelves: null,
+    shelves: [],
     loading: false,
     error: false,
     errorMessage: null,
@@ -20,7 +20,7 @@ export const shelfSystemReducer = createReducer(
     initialState,
     on(ShelfSystemActions.setName, (state, { name }) => ({ ...state, systemName: name })),
     on(ShelfSystemActions.newShelfSystem, (state, { id, name }) => ({ ...initialState, systemId: id, systemName: name, system: [[]], newSystem: true })),
-    on(ShelfSystemActions.loadShelfSystemSuccess, (state, { system, shelfId, shelfIndex }) => ({ ...initialState, systemId: system.systemid, systemName: system.systemname, system: system.system, shelves: system.shelves, foundShelfId: shelfId, foundShelfIndex: shelfIndex })),
+    on(ShelfSystemActions.loadShelfSystemSuccess, (state, { system, shelfId, shelfIndex }) => ({ ...initialState, systemId: system.systemid, systemName: system.systemname, system: system.system, shelves: system.shelves ?? [], foundShelfId: shelfId, foundShelfIndex: shelfIndex })),
     on(ShelfSystemActions.resetStore, () => JSON.parse(JSON.stringify(initialState))),
     on(ShelfSystemActions.addShelf, (state, { add }) => {
         const system = JSON.parse(JSON.stringify(state.system));

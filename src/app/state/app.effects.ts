@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType, concatLatestFrom } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
-import { HttpStoreService } from '../services/http-store.service';
+import { HttpService } from '../services/http.service';
 import * as ShelfActions from './app.actions';
 import { IAppState } from './state.types';
 
 @Injectable()
 export class ShelfSystemEffects {
-    constructor(private actions$: Actions, private store: Store<IAppState>, private http: HttpStoreService, private router: Router) { }
+    constructor(private actions$: Actions, private store: Store<IAppState>, private http: HttpService, private router: Router) { }
 
     loadShelfSystem$ = createEffect(() =>
         this.actions$.pipe(
