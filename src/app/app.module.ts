@@ -35,6 +35,7 @@ import { ShelfEditBoardComponent } from './components/shelf-edit-board/shelf-edi
 import { AddBookComponent } from './components/add-book/add-book.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { BooksPreviewComponent } from './components/books-preview/books-preview.component';
+import { ErrorMessageComponent } from './components/error-message/error-message.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { BooksPreviewComponent } from './components/books-preview/books-preview.
     HoverDirective,
     LibraryViewComponent,
     BooksPreviewComponent,
+    ErrorMessageComponent,
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,8 @@ export const loadShelfSystemSuccess = createAction('[ShelfSystem] Load System in
 
 export const setError = createAction('[ShelfSystem] Set Error and Message', props<{ error: boolean, message: string }>());
 
+export const clearError = createAction('[ShelfSystem] Clear Error');
+
 export const resetStore = createAction('[ShelfSystem] Reset State');
 
 export const addShelf = createAction('[ShelfSystem] Add Another Shelf to System', props<{ add: "first" | "last" }>());

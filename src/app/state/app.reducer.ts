@@ -59,6 +59,7 @@ export const shelfSystemReducer = createReducer(
         return { ...state, shelves };
     }),
     on(ShelfSystemActions.setError, (state, { error, message }) => ({ ...state, error: true, errorMessage: message, loading: false })),
+    on(ShelfSystemActions.clearError, (state) => ({ ...state, error: false, errorMessage: null })),
     on(ShelfSystemActions.isLoading, (state) => ({ ...state, loading: true })),
     on(ShelfSystemActions.stopLoading, (state) => ({ ...state, loading: false }))
 );

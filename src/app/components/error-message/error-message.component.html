@@ -1,0 +1,11 @@
+<div class="error">
+    <button mat-icon-button color="warn" class="error-close" (click)="close()">
+        <mat-icon>
+            <span class="material-icons">highlight_off</span>
+        </mat-icon>
+    </button>
+    <h1>Error</h1>
+    <h2>Bitte Kundenservice kontaktieren!</h2>
+    <h4 *ngIf="message">Error message:</h4>
+    <p *ngIf="message">{{message}}</p>
+</div>

@@ -2,4 +2,6 @@
 <main>
     <router-outlet></router-outlet>  
 </main>
-
+<div *ngIf="error$ | async as error">
+    <app-error-message *ngIf="error.error" [message]="error.errorMessage" (clearError)="clearError()"></app-error-message>
+</div>
