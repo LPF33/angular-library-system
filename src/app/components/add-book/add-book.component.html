@@ -10,3 +10,29 @@
     <button type="submit">Speichern</button>
     <button type="reset">Löschen</button>
 </form>
+<br/>
+<div class="scanner">
+    <div id="reader"></div>
+    <div *ngIf="scanActive; else scanButton" class="reader-overlay">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <button (click)="stopScanning()">Stop Scanning</button>
+    </div>
+</div>
+
+<ng-template #scanButton>
+    <div class="start-scanning">
+        <mat-icon>
+            <span class="material-icons">qr_code-scanner</span>
+        </mat-icon>
+        <button #scanButton (click)="scanISBN()">Scan ISBN</button>
+    </div>
+</ng-template>  
+
+<p *ngIf="isbn">Die ISBN des Buches: {{isbn}}</p>

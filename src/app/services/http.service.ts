@@ -60,4 +60,8 @@ export class HttpService {
   public getShelfSystems(): Observable<IResultLibrary> {
     return this.http.get<IResultLibrary>(this.host + "/v1/shelfsystems");
   }
+
+  public getBookByISBN(isbn: string): Observable<any> {
+    return this.http.get("https://openlibrary.org/api/books?bibkeys=ISBN:" + isbn + "&jscmd=data&format=json");
+  }
 }

@@ -15,3 +15,104 @@ form {
 input {
     color: black;
 }
+
+.scanner {
+    position: relative;
+    width: 300px;
+    height: 225px;
+}
+
+.reader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: inherit;
+    height: inherit;
+}
+
+.reader-overlay > div {
+    width: 30px;
+    height: 3px;
+    background-color: white;
+}
+
+.reader-overlay > div:first-child {
+    transform-origin: 0 top;
+    transform: translate(10px,13px) rotateZ(90deg);
+}
+
+.reader-overlay > div:nth-child(2){
+    transform: translate(7px,7px);
+}
+
+.reader-overlay > div:nth-child(3) {
+    position: absolute;
+    right: 0;
+    transform: translate(-7px,3px);
+}
+
+.reader-overlay > div:nth-child(4){
+    position: absolute;
+    right: 0;
+    transform-origin: 0 top;
+    transform: translate(23px,6px) rotateZ(90deg);
+}
+
+.reader-overlay > div:nth-child(5){
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform-origin: 0 top;
+    transform: translate(23px,-37px) rotateZ(90deg);
+}
+
+.reader-overlay > div:nth-child(6){
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: translate(-7px,-7px);
+}
+
+.reader-overlay > div:nth-child(7) {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transform: translate(7px,-7px);
+}
+
+.reader-overlay > div:nth-child(8){
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transform-origin: 0 top;
+    transform: translate(7px,-7px) rotateZ(-90deg);
+}
+
+.reader-overlay button {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 100%);
+}
+
+.start-scanning {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto 0;
+}
+
+.start-scanning button, .reader-overlay button {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid white;
+    margin-top: 5px;
+    background-color: black;
+    color: white;
+}
+
+.start-scanning button:hover, .reader-overlay button:hover {
+    background-color: rgb(20, 20, 255);
+}
