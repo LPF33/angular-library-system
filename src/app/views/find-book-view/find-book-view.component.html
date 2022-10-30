@@ -1,5 +1,5 @@
 <h1>Suche ein Buch nach Titel oder Autor</h1>
-<input type="text" placeholder="Suchbegriff" [(ngModel)]="search" (input)="inputChange($event)" />
+<input id="search" type="text" placeholder="Suchbegriff" [formControl]="search" />
 
 <div *ngIf="foundBooks$ | async as foundBooks">
     <h1>Gefundene Ergebnisse:</h1>
@@ -10,6 +10,6 @@
         </a>
     </ng-container>
     <ng-template #notFound>
-        <p>Nothing found!</p>
+        <p>Nichts gefunden!</p>
     </ng-template>
 </div>
