@@ -2,7 +2,11 @@ nav a {
     color: white;
     text-decoration: none;
     padding: 5px;
-    margin-left: 20px;
+    font-size: 0.8rem;
+}
+
+nav a+a {
+    margin-left: 5px;
 }
 
 nav a.active {
@@ -17,5 +21,29 @@ nav a:hover {
 span {
     color: white;
     font-size: 1.5rem;
-    transform: translateY(4px);
+    transform: translateY(6px) scale(0.8);
+}
+
+@media screen and (min-width: 430px) {
+    nav a {
+        font-size: 1rem;
+    }
+
+    nav a+a {
+        margin-left: 10px;
+    }
+
+    span {
+        transform: translateY(6px) scale(1);
+    }
+}
+
+@media screen and (min-width: 500px) {
+    nav a {
+        font-size: 1.3rem;
+    }
+
+    span {
+        transform: translateY(6px) scale(1);
+    }
 }

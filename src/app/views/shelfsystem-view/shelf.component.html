@@ -8,41 +8,45 @@
                 </mat-icon>
             </button>
         </div>
-        <div  class="shelf" *ngFor="let shelf of shSystem.system; let shelfIndex = index; let first = first; let last = last;" [ngClass]="{left: first, right: last}">
-            <button mat-icon-button class="shelf-left" *ngIf="first" (click)="addShelf('first')">
-                +
-                <mat-icon>
-                    <span class="material-icons">shelves</span>
-                </mat-icon>
-            </button>
-
-            <ng-container *ngFor="let board of shelf, let boardIndex = index">
-                <app-shelf-board *ngIf="board" [shelfid]="board" (delete)="deleteShelfItem(shelfIndex , boardIndex)"></app-shelf-board>
-                <app-shelf-empty *ngIf="!board" (delete)="deleteShelfItem(shelfIndex , boardIndex)"></app-shelf-empty>
-            </ng-container>
-            <div class="buttons">
-                <button mat-flat-button color="primary" (click)="addBoard(shelfIndex , 'board')">
-                    + Regalbrett
-                </button>
-            
-                <button mat-flat-button color="primary" (click)="addBoard(shelfIndex , 'empty')">
-                    + Leerraum
-                </button> 
-
-                <button mat-icon-button color="warn" (click)="deleteShelf(shelfIndex)">
+        <div class="shelves">
+            <div  class="shelf" *ngFor="let shelf of shSystem.system; let shelfIndex = index; let first = first; let last = last;" [ngClass]="{left: first, right: last}">
+                <button mat-icon-button class="shelf-left" *ngIf="first" (click)="addShelf('first')">
+                    +
                     <mat-icon>
-                        <span class="material-icons">delete</span>
+                        <span class="material-icons">shelves</span>
                     </mat-icon>
                 </button>
-            </div>
+                <!-- <div> -->
+                    <ng-container *ngFor="let board of shelf, let boardIndex = index">
+                        <app-shelf-board *ngIf="board" [shelfid]="board" (delete)="deleteShelfItem(shelfIndex , boardIndex)"></app-shelf-board>
+                        <app-shelf-empty *ngIf="!board" (delete)="deleteShelfItem(shelfIndex , boardIndex)"></app-shelf-empty>
+                    </ng-container>
+                <!-- </div> -->
+                <div class="buttons">
+                    <button mat-flat-button color="primary" (click)="addBoard(shelfIndex , 'board')">
+                        + Regalbrett
+                    </button>
+                
+                    <button mat-flat-button color="primary" (click)="addBoard(shelfIndex , 'empty')">
+                        + Leerraum
+                    </button> 
 
-            <button mat-icon-button class="shelf-right" *ngIf="last" (click)="addShelf('last')">
-                <mat-icon>
-                    <span class="material-icons">shelves</span>
-                </mat-icon>
-                +
-            </button>
+                    <button mat-icon-button color="warn" (click)="deleteShelf(shelfIndex)">
+                        <mat-icon>
+                            <span class="material-icons">delete</span>
+                        </mat-icon>
+                    </button>
+                </div>
+
+                <button mat-icon-button class="shelf-right" *ngIf="last" (click)="addShelf('last')">
+                    <mat-icon>
+                        <span class="material-icons">shelves</span>
+                    </mat-icon>
+                    +
+                </button>
+            </div>
         </div>
+        
         <button mat-fab color="accent" (click)="saveShelfSystem()" class="save-shelf">
             <mat-icon>
                 <span class="material-icons">save</span>
@@ -53,7 +57,7 @@
 
 <ng-template #noShelf>
     <div class="empty">
-        <h2 class="mat-h2">Baue das Regal zusammen und fülle es mit Büchern!</h2>
+        <h1>Baue das Regal zusammen und fülle es mit Büchern!</h1>
         <div class="system-name-form">
             <label for="system-name">Wähle einen Namen für das Regalsystem:</label>
             <input id="system-name" type="text" [(ngModel)]="systemName" placeholder="z.B. Wohnzimmer" (keydown.enter)="start()"/>

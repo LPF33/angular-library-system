@@ -2,14 +2,20 @@
 <input id="search" type="text" placeholder="Suchbegriff" [formControl]="search" />
 
 <div *ngIf="foundBooks$ | async as foundBooks">
-    <h1>Gefundene Ergebnisse:</h1>
     <ng-container *ngIf="foundBooks.length; else notFound">
-        <a *ngFor="let book of foundBooks" [routerLink]="['/add/' + book.systemid + '/' + book.shelfid + '/' + book.shelfindex]">
-            <h2>{{book.title}}</h2>
-            <p>{{book.author}}</p>
-        </a>
+        <h2>Gefundene Ergebnisse:</h2>
+        <ul class="found-books">
+            <li *ngFor="let book of foundBooks">
+                <a [routerLink]="['/add/' + book.systemid + '/' + book.shelfid + '/' + book.shelfindex]">
+                    <span>Titel: {{book.title}}</span><br/>
+                    <span>Autor: {{book.author}}</span>
+                </a>
+            </li>
+        </ul>
     </ng-container>
     <ng-template #notFound>
-        <p>Nichts gefunden!</p>
+        <div class="nothing-found">
+            <p>Leider nichts {{ search.value ? "mit Suchbegriff" : "" }} <em>{{search.value}}</em> gefunden!</p>
+        </div>
     </ng-template>
 </div>
